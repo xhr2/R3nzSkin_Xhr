@@ -1,6 +1,16 @@
 name: Windows
 
-on: [push, pull_request]
+on:
+  push:
+    # 只在 main 分支上触发工作流程
+    branches:
+      - main
+    # 限制只有在根目录下的 R3nzSkin/memory.hpp 文件发生变化时触发工作流程
+    paths:
+      #- 'R3nzSkin/memory.hpp'
+      - 'Up'
+  pull_request:
+    types: [opened, synchronize, reopened, closed, pull_request_target]
 
 jobs:
   build:
@@ -8,11 +18,61 @@ jobs:
     strategy:
       matrix:
         os: [windows-2022]
-        configuration: [RiotGamesServers, ChinaServer]
+        configuration: [ChinaServer]
     steps:
-    - uses: actions/checkout@v3.5.2
-    - name: Add msbuild to PATH
-      uses: microsoft/setup-msbuild@v1.3.1
-    - name: Build
-      shell: cmd
-      run: msbuild R3nzSkin/R3nzSkin.vcxproj /p:Platform=x64 /p:Configuration=${{ matrix.configuration }}
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v1.1
+
+      - name: Build
+        run: msbuild R3nzSkin/R3nzSkin.vcxproj /p:Platform=x64 /p:Configuration=${{ matrix.configuration }}
+
+      - name: Upload File
+        uses: actions/upload-artifact@v2
+        with:
+          name: windows
+          path: R3nzSkin/Release/ChinaServer/R3nzSkin.dll
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete Previous Releases
+        run: |
+          releases=$(curl -s -H "Authorization: token ${{ secrets.MY_GITHUB_TOKEN }}" https://api.github.com/repos/${{ github.repository }}/releases)
+          for release in $(echo "${releases}" | jq -r '.[].id'); do
+            echo "Deleting release ID: ${release}"
+            curl -X DELETE -H "Authorization: token ${{ secrets.MY_GITHUB_TOKEN }}" "https://api.github.com/repos/${{ github.repository }}/releases/${release}"
+          done
+
+      - name: Download Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: windows
+
+      - name: Generate Random Version Number
+        id: random_version
+        run: echo "::set-output name=random_version::$(openssl rand -hex 4 | tr -d '\n')"
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.random_version.outputs.random_version }}
+          release_name: Release ${{ steps.random_version.outputs.random_version }}
+          draft: false
+          prerelease: false
+
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./R3nzSkin.dll
+          asset_name: R3nzSkin.dll
+          asset_content_type: application/octet-stream
