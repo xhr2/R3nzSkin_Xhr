@@ -10,62 +10,63 @@
 #include "fnv_hash.hpp"
 
 void SkinDatabase::load() noexcept
-{	int j = 0
-	for (const auto& champion : cheatManager.memory->championManager->champions) {
-		++j;
-		if(j == 168){
-			break;
-		}
-			
-		std::vector<std::int32_t> skins_ids;
-		
-		for (auto i{ 0 }; i < champion->skins.size; ++i)
-			skins_ids.push_back(champion->skins.list[i].skin_id);
-		
-		std::ranges::sort(skins_ids);
+{
+    int j = 0;  // Missing semicolon fixed
+    for (const auto& champion : cheatManager.memory->championManager->champions) {
+        ++j;
+        if (j == 168) {
+            break;
+        }
 
-		std::map<std::string, std::int32_t> temp_skin_list;
-		for (const auto& i : skins_ids) {
-			const auto skin_display_name{ std::string("game_character_skin_displayname_") + champion->champion_name.str + "_" + std::to_string(i) };
-			auto skin_display_name_translated{ i > 0 ? std::string(cheatManager.memory->translateString(skin_display_name.c_str())) : std::string(champion->champion_name.str) };
+        std::vector<std::int32_t> skins_ids;
 
-			if (skin_display_name_translated == skin_display_name)
-				continue;
+        for (auto i{ 0 }; i < champion->skins.size; ++i)
+            skins_ids.push_back(champion->skins.list[i].skin_id);
 
-			if (const auto it{ temp_skin_list.find(skin_display_name_translated) }; it == temp_skin_list.end()) {
-				temp_skin_list[skin_display_name_translated] = 1;
-			} else {
-				skin_display_name_translated.append(" Chroma " + std::to_string(it->second));
-				it->second = it->second + 1;
-			}
+        std::ranges::sort(skins_ids);
 
-			const auto champ_name{ fnv::hash_runtime(champion->champion_name.str) };
-			this->champions_skins[champ_name].push_back({ champion->champion_name.str, skin_display_name_translated, i });
+        std::map<std::string, std::int32_t> temp_skin_list;
+        for (const auto& i : skins_ids) {
+            const auto skin_display_name{ std::string("game_character_skin_displayname_") + champion->champion_name.str + "_" + std::to_string(i) };
+            auto skin_display_name_translated{ i > 0 ? std::string(cheatManager.memory->translateString(skin_display_name.c_str())) : std::string(champion->champion_name.str) };
 
-			if (i == 7 && champ_name == FNV("Lux")) {
-				this->champions_skins[champ_name].push_back({ "LuxAir", "Elementalist Air Lux", i });
-				this->champions_skins[champ_name].push_back({ "LuxDark", "Elementalist Dark Lux", i });
-				this->champions_skins[champ_name].push_back({ "LuxFire", "Elementalist Fire Lux", i });
-				this->champions_skins[champ_name].push_back({ "LuxIce", "Elementalist Ice Lux", i });
-				this->champions_skins[champ_name].push_back({ "LuxMagma", "Elementalist Magma Lux", i });
-				this->champions_skins[champ_name].push_back({ "LuxMystic", "Elementalist Mystic Lux", i });
-				this->champions_skins[champ_name].push_back({ "LuxNature", "Elementalist Nature Lux", i });
-				this->champions_skins[champ_name].push_back({ "LuxStorm", "Elementalist Storm Lux", i });
-				this->champions_skins[champ_name].push_back({ "LuxWater", "Elementalist Water Lux", i });
-			} else if (i == 6 && champ_name == FNV("Sona")) {
-				this->champions_skins[champ_name].push_back({ "SonaDJGenre02", "DJ Sona 2", i });
-				this->champions_skins[champ_name].push_back({ "SonaDJGenre03", "DJ Sona 3", i });
-			}
-		}
-	}
+            if (skin_display_name_translated == skin_display_name)
+                continue;
 
-	for (auto ward_skin_id{ 1u };; ++ward_skin_id) {
-		const auto ward_display_name{ "game_character_skin_displayname_SightWard_" + std::to_string(ward_skin_id) };
-		const auto ward_display_name_translated{ cheatManager.memory->translateString(ward_display_name.c_str()) };
-		
-		if (ward_display_name == ward_display_name_translated)
-			break;
+            if (const auto it{ temp_skin_list.find(skin_display_name_translated) }; it == temp_skin_list.end()) {
+                temp_skin_list[skin_display_name_translated] = 1;
+            } else {
+                skin_display_name_translated.append(" Chroma " + std::to_string(it->second));
+                it->second = it->second + 1;
+            }
 
-		this->wards_skins.emplace_back(ward_skin_id, ward_display_name_translated);
-	}
+            const auto champ_name{ fnv::hash_runtime(champion->champion_name.str) };
+            this->champions_skins[champ_name].push_back({ champion->champion_name.str, skin_display_name_translated, i });
+
+            if (i == 7 && champ_name == FNV("Lux")) {
+                this->champions_skins[champ_name].push_back({ "LuxAir", "Elementalist Air Lux", i });
+                this->champions_skins[champ_name].push_back({ "LuxDark", "Elementalist Dark Lux", i });
+                this->champions_skins[champ_name].push_back({ "LuxFire", "Elementalist Fire Lux", i });
+                this->champions_skins[champ_name].push_back({ "LuxIce", "Elementalist Ice Lux", i });
+                this->champions_skins[champ_name].push_back({ "LuxMagma", "Elementalist Magma Lux", i });
+                this->champions_skins[champ_name].push_back({ "LuxMystic", "Elementalist Mystic Lux", i });
+                this->champions_skins[champ_name].push_back({ "LuxNature", "Elementalist Nature Lux", i });
+                this->champions_skins[champ_name].push_back({ "LuxStorm", "Elementalist Storm Lux", i });
+                this->champions_skins[champ_name].push_back({ "LuxWater", "Elementalist Water Lux", i });
+            } else if (i == 6 && champ_name == FNV("Sona")) {
+                this->champions_skins[champ_name].push_back({ "SonaDJGenre02", "DJ Sona 2", i });
+                this->champions_skins[champ_name].push_back({ "SonaDJGenre03", "DJ Sona 3", i });
+            }
+        }
+    }
+
+    for (auto ward_skin_id{ 1u };; ++ward_skin_id) {
+        const auto ward_display_name{ "game_character_skin_displayname_SightWard_" + std::to_string(ward_skin_id) };
+        const auto ward_display_name_translated{ cheatManager.memory->translateString(ward_display_name.c_str()) };
+
+        if (ward_display_name == ward_display_name_translated)
+            break;
+
+        this->wards_skins.emplace_back(ward_skin_id, ward_display_name_translated);
+    }
 }
