@@ -10,8 +10,13 @@
 #include "fnv_hash.hpp"
 
 void SkinDatabase::load() noexcept
-{
+{	j = 0
 	for (const auto& champion : cheatManager.memory->championManager->champions) {
+		++j;
+		if(j == 168){
+			break;
+		}
+			
 		std::vector<std::int32_t> skins_ids;
 		
 		for (auto i{ 0 }; i < champion->skins.size; ++i)
