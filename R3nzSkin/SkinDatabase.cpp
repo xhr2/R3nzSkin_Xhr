@@ -10,7 +10,7 @@
 #include "fnv_hash.hpp"
 
 void SkinDatabase::load() noexcept
-{	j = 0
+{	int j = 0
 	for (const auto& champion : cheatManager.memory->championManager->champions) {
 		++j;
 		if(j == 168){
