@@ -11,6 +11,19 @@
 #include "fnv_hash.hpp"
 #include "imgui/imgui.h"
 
+void SetStyleColorsBlack()
+{
+    ImGuiStyle& style = ImGui::GetStyle();
+    ImVec4* colors = style.Colors;
+
+    // 设置窗口背景颜色为黑色
+    colors[ImGuiCol_WindowBg] = ImVec4(0.0f, 0.0f, 0.0f, 1.0f); // 黑色
+
+    // 设置文本颜色为白色
+    colors[ImGuiCol_Text] = ImVec4(1.0f, 1.0f, 1.0f, 1.0f); // 白色
+}
+
+
 inline static void footer() noexcept
 {
 	using namespace std::string_literals;
@@ -77,22 +90,8 @@ void GUI::render() noexcept
 		return true;
 	};
 
-	void SetStyleColorsYellow()
-	{
-	    ImGuiStyle& style = ImGui::GetStyle();
-	    ImVec4* colors = style.Colors;
-	
-	    // 设置窗口背景颜色为黄色
-    	    colors[ImGuiCol_WindowBg] = ImVec4(0.0f, 0.0f, 0.0f, 1.0f); // 黑色
-	
-	    // 设置文本颜色为白色
-	    colors[ImGuiCol_Text] = ImVec4(1.0f, 1.0f, 1.0f, 1.0f); // 白色
-	}
-		
-
 	ImGui::Begin("R3nzSkin 独家版", nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_AlwaysAutoResize);
-	{	
-		SetStyleColorsYellow(); 
+	{	SetStyleColorsBlack();
 		ImGui::rainbowText();
 		if (ImGui::BeginTabBar("TabBar", ImGuiTabBarFlags_Reorderable | ImGuiTabBarFlags_FittingPolicyScroll | ImGuiTabBarFlags_NoTooltip)) {
 			if (player) {
