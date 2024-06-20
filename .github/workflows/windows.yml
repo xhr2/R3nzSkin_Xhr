@@ -18,7 +18,7 @@ jobs:
     strategy:
       matrix:
         os: [windows-2022]
-        configuration: [ChinaServer]
+        configuration: [RiotGamesServers]
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v2
@@ -33,7 +33,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: windows
-          path: R3nzSkin/Release/ChinaServer/R3nzSkin.dll
+          path: R3nzSkin/Release/RiotGamesServers/R3nzSkin.dll
 
   publish:
     needs: build
