@@ -11,12 +11,9 @@
 
 void SkinDatabase::load() noexcept
 {
-    int j = 0;  // Missing semicolon fixed
-    for (const auto& champion : cheatManager.memory->championManager->champions) {
-        ++j;
-        if (j == 168) {
-            break;
-        }
+    #for (const auto& champion : cheatManager.memory->championManager->champions) {
+    for (auto j{ 0 }; j < cheatManager.memory->championManager->champions.size;++j) {
+		const auto& champion = cheatManager.memory->championManager->champions.list[j]; 
 
         std::vector<std::int32_t> skins_ids;
 
