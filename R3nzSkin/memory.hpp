@@ -60,12 +60,12 @@ private:
 	{
 		{
 			{
-				"48 8B 3D ? ? ? ? 48 3B CF"
+				"48 8B 1D ? ? ? ? 48 85 DB 74 15 48 81 C3"
 			}, true, false, true, 0, &offsets::global::Player
 		},
 		{
 			{
-				"48 8B 1D ? ? ? ? E8 ? ? ? ? 48 8B 7B"
+				"48 8B 05 ? ? ? ? 45 33 E4 41 8B EC 48 8B 78 ? 8B 40 ?"
 			}, true, false, true, 0, &offsets::global::ManagerTemplate_AIHero_
 		},
 		{
