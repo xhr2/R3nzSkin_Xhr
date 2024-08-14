@@ -241,11 +241,45 @@ namespace d3d_vtable {
 		cheatManager.logger->addLog("WndProc hooked!\n\tOriginal: 0x%X\n\tNew: 0x%X\n", &originalWndProc, &wndProc);
 	}
 
+	static void updateAllHeroSkin() {
+		const auto player{ cheatManager.memory->localPlayer };
+		const auto heroes{ cheatManager.memory->heroList };
+		static const auto my_team{ player ? player->get_team() : 100 };
+		auto& values{ cheatManager.database->champions_skins[fnv::hash_runtime(player->get_character_data_stack()->base_skin.model.str)] };
+
+		if (const auto stack{ player->get_character_data_stack() }; stack->base_skin.skin != values[cheatManager.config->current_combo_skin_index - 1].skin_id) {
+			player->change_skin(values[cheatManager.config->current_combo_skin_index - 1].model_name, values[cheatManager.config->current_combo_skin_index - 1].skin_id);
+		}
+
+		for (auto i{ 0u }; i < heroes->length; ++i) {
+			const auto hero{ heroes->list[i] };
+
+			if (hero == player)
+				continue;
+
+			const auto champion_name_hash{ fnv::hash_runtime(hero->get_character_data_stack()->base_skin.model.str) };
+
+			if (champion_name_hash == FNV("PracticeTool_TargetDummy"))
+				continue;
+
+			const auto hero_team{ hero->get_team() };
+			const auto is_enemy{ hero_team != my_team };
+			auto& config_array{ is_enemy ? cheatManager.config->current_combo_enemy_skin_index : cheatManager.config->current_combo_ally_skin_index };
+			const auto [fst, snd] { config_array.insert({ champion_name_hash, 0 }) };
+			auto& values{ cheatManager.database->champions_skins[champion_name_hash] };
+
+			if (const auto stack{ hero->get_character_data_stack() }; stack->base_skin.skin != values[fst->second - 1].skin_id) {
+				hero->change_skin(values[fst->second - 1].model_name, values[fst->second - 1].skin_id);
+			}
+		}
+	}
+
 	static void render() noexcept
 	{
 		const auto client{ cheatManager.memory->client };
 		if (client && client->game_state == GGameState_s::Running) {
 			cheatManager.hooks->init();
+			updateAllHeroSkin();
 			if (cheatManager.gui->is_open) {
 				::ImGui_ImplDX11_NewFrame();
 				::ImGui_ImplWin32_NewFrame();
@@ -258,6 +292,7 @@ namespace d3d_vtable {
 			}
 		}
 	}
+
 
 	struct dxgi_present {
 		static long WINAPI hooked(IDXGISwapChain* p_swap_chain, UINT sync_interval, UINT flags) noexcept
