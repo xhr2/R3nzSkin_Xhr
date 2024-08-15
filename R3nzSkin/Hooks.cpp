@@ -265,12 +265,12 @@ namespace d3d_vtable {
 			const auto hero_team{ hero->get_team() };
 			const auto is_enemy{ hero_team != my_team };
 			auto& config_array{ is_enemy ? cheatManager.config->current_combo_enemy_skin_index : cheatManager.config->current_combo_ally_skin_index };
-			const auto [fst, snd] { config_array.insert({ champion_name_hash, 0 }) };
+			const auto it = config_array.find(champion_name_hash);
 			auto& values{ cheatManager.database->champions_skins[champion_name_hash] };
 
-			if (const auto stack{ hero->get_character_data_stack() }; stack->base_skin.skin != values[fst->second - 1].skin_id) {
-				hero->change_skin(values[fst->second - 1].model_name, values[fst->second - 1].skin_id);
-			}
+			if (it != config_array.end())
+				if (const auto stack{ hero->get_character_data_stack() }; stack->base_skin.skin != values[it->second - 1].skin_id)
+					hero->change_skin(values[it->second - 1].model_name, values[it->second - 1].skin_id);
 		}
 	}
 
