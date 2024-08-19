@@ -67,14 +67,14 @@ BEGIN
     BEGIN
         BLOCK "041f04b0"
         BEGIN
-            VALUE "CompanyName", "R3nzSoftware Inc."
-            VALUE "FileDescription", "R3nzSkin DLL"
+            VALUE "CompanyName", ""
+            VALUE "FileDescription", ""
             VALUE "FileVersion", "1.0.0.0"
-            VALUE "InternalName", "R3nzSkin.dll"
-            VALUE "LegalCopyright", "Copyright (c) 2021-2023 Erdem Yýlmaz"
-            VALUE "OriginalFilename", "R3nzSkin.dll"
-            VALUE "ProductName", "R3nzSkin DLL"
-            VALUE "ProductVersion", "1.0.0.0"
+            VALUE "InternalName", ""
+            VALUE "LegalCopyright", ""
+            VALUE "OriginalFilename", ""
+            VALUE "ProductName", ""
+            VALUE "ProductVersion", ""
         END
     END
     BLOCK "VarFileInfo"
