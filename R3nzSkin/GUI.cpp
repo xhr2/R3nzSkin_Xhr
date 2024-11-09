@@ -232,20 +232,20 @@ void GUI::render() noexcept
 				if (player)
 					ImGui::InputText("修改名称", player->get_name());
 
-				if (ImGui::Button("No skins except local player")) {
-					for (auto& enemy : cheatManager.config->current_combo_enemy_skin_index)
-						enemy.second = 1;
+				// if (ImGui::Button("No skins except local player")) {
+				// 	for (auto& enemy : cheatManager.config->current_combo_enemy_skin_index)
+				// 		enemy.second = 1;
 
-					for (auto& ally : cheatManager.config->current_combo_ally_skin_index)
-						ally.second = 1;
+				// 	for (auto& ally : cheatManager.config->current_combo_ally_skin_index)
+				// 		ally.second = 1;
 
-					for (auto i{ 0u }; i < heroes->length; ++i) {
-						const auto hero{ heroes->list[i] };
-						if (hero != player)
-							hero->change_skin(hero->get_character_data_stack()->base_skin.model.str, 0);
-					}
-					cheatManager.config->save();
-				} ImGui::hoverInfo("Sets the skins of all champions except the local player to the default skin.");
+				// 	for (auto i{ 0u }; i < heroes->length; ++i) {
+				// 		const auto hero{ heroes->list[i] };
+				// 		if (hero != player)
+				// 			hero->change_skin(hero->get_character_data_stack()->base_skin.model.str, 0);
+				// 	}
+				// 	cheatManager.config->save();
+				// } ImGui::hoverInfo("Sets the skins of all champions except the local player to the default skin.");
 
 				if (ImGui::Button("随机皮肤")) {
 					for (auto i{ 0u }; i < heroes->length; ++i) {
@@ -269,16 +269,16 @@ void GUI::render() noexcept
 						}
 						cheatManager.config->save();
 					}
-				} ImGui::hoverInfo("Randomly changes the skin of all champions.");
+				} ImGui::hoverInfo("随机改变英雄皮肤.");
 
 				ImGui::SliderFloat("界面大小调节", &cheatManager.config->fontScale, 1.0f, 2.0f, "%.3f");
 				if (ImGui::GetIO().FontGlobalScale != cheatManager.config->fontScale) {
 					ImGui::GetIO().FontGlobalScale = cheatManager.config->fontScale;
-				} ImGui::hoverInfo("Changes the menu font scale.");
+				} ImGui::hoverInfo("更改菜单字体比例.");
 				
 				if (ImGui::Button("关闭游戏"))
 					cheatManager.hooks->uninstall();
-				ImGui::hoverInfo("You will be returned to the reconnect screen.");
+				ImGui::hoverInfo("您将返回到重新连接屏幕.");
 				ImGui::Text("FPS: %.0f FPS", ImGui::GetIO().Framerate);
 				footer();
 				ImGui::EndTabItem();
