@@ -9,7 +9,7 @@
 class GameObject {
 public:
 	CLASS_GETTER_P(std::string, get_name, offsets::GameObject::Name)
-	CLASS_GETTER(std::int32_t, get_team, offsets::GameObject::Team)
+	CLASS_GETTER(std::int8_t, get_team, offsets::GameObject::Team)
 
 	// Returns true for lane minions.
 	[[nodiscard]] bool isLaneMinion() const noexcept { return CallVirtual<offsets::GameObject::VTable::IsLaneMinion, bool>(std::uintptr_t(this)); }
