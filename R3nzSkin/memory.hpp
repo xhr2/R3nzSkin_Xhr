@@ -65,17 +65,17 @@ private:
 		},
 		{
 			{
-				"48 8B 05 ? ? ? ? 48 8B 58 08 8B 40 10 48 8D 34 C3 48 3B DE 74 52"
+				"48 8B 05 ? ? ? ? 48 8B ? 08 8B 40 ? ? 8D ? ? ? 3B ? 74"
 			}, true, false, true, 0, &offsets::global::ManagerTemplate_AIHero_
 		},
 		{
 			{
-				"48 8B 0D ? ? ? ? 48 69 D0 ? ? 00 00 48 8B 05"
+				"48 8B 0D ? ? ? ? 48 8D ? ? 48 8B 05"
 			}, true, false, true, 0, &offsets::global::ChampionManager
 		},
 		{
 			{
-				"48 8B 0D ? ? ? ? E8 ? ? ? ? 48 8B 0D ? ? ? ? E8 ? ? ? ? E8 ? ? ? ? E8 ? ? ? ? 48 8B C8"
+				"48 8B 0D ? ? ? ? E8 ? ? ? ? 48 8B 0D ? ? ? ? E8 ? ? ? ? 48 8B 0D ? ? ? ? E8 ? ? ? ? E8 ? ? ? ? E8"
 			}, true, false, true, 0, &offsets::global::ManagerTemplate_AIMinionClient_
 		},
 		{
@@ -110,7 +110,7 @@ private:
 		},
 		{
 			{
-				"88 54 24 10 53 55 56 57 41 54 41 55 41 56 41"
+				"4C 8B DC 53 56 57 48 83 EC ? 49"
 			}, true, false, false, 0, &offsets::functions::CharacterDataStack__Update
 		},
 		{
