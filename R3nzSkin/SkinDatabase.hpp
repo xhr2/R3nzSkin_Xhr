@@ -95,6 +95,7 @@ public:
 		{ FNV("Renekton"), 26, 32, { "Head off", "Head on", "Fins", "Ultimate" } },
 		{ FNV("MissFortune"), 16, 16, { "Scarlet fair", "Zero hour", "Royal arms", "Starswarm" } },
 		{ FNV("Ezreal"), 5, 5, { "Level 1", "Level 2", "Level 3" } },
-		{ FNV("Ahri"), 86, 86, { "Level 1", "Level 2", "Level 3" } }
+		{ FNV("Ahri"), 86, 86, { "Level 1", "Level 2", "Level 3" } },
+		{ FNV("Jinx"), 60, 60, { "With hood", "Without hood", "Parallel world" } }
 	};
 };
