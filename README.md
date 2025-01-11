@@ -10,7 +10,7 @@
 
 1. Clone the source with `git clone --recursive https://github.com/hydy100/R3nzSkin.git`
 
-   - **If you don't modify this source code, compiling and using it on Chinese servers will definitely result in a ban. The functionality is fine, but if you know how to modify it, you can make it as safe as the version I released.**
+   - **If you don't modify this source code, compiling and using it on Chinese servers will definitely result in a ban. The functionality is fine.**
 
 2. Build in Visual Studio 2019/2022 with configuration "Your Region - x64"
 
