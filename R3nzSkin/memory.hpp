@@ -70,7 +70,7 @@ private:
 		},
 		{
 			{
-				"48 8B 0D ? ? ? ? 48 8D ? ? 48 8B 05"
+				"48 8B 0D ? ? ? ? 48 69 D0 ? ? 00 00 48 8B 05"
 			}, true, false, true, 0, &offsets::global::ChampionManager
 		},
 		{
